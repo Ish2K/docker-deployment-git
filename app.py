@@ -60,6 +60,7 @@ async def create_database(db: Database):
 @app.post("/create-table")
 async def create_table(db: Database):
     try:
+        print("Creating table in database: {}".format(db.name))
         mydb = mysql.connector.connect(
             host="mysqldb",
             user="root",
