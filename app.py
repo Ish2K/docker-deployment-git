@@ -77,3 +77,24 @@ async def create_table(db: Database):
 
     except mysql.connector.Error as error:
         raise HTTPException(status_code=500, detail="Database creation failed: {}".format(error))
+
+@app.post("/delete-table")
+async def create_table(db: Database):
+    try:
+        print("Deleting table in databases: {}".format(db.name))
+        mydb = mysql.connector.connect(
+            host="mysqldb",
+            user="root",
+            password="p@ssw0rd1",
+            database=db.name
+        )
+        cursor = mydb.cursor()
+
+        cursor.execute("DROP TABLE IF EXISTS widgets")
+        # cursor.execute("CREATE TABLE widgets (name VARCHAR(255), description VARCHAR(255))")
+        cursor.close()
+
+        return {"message": "Table widgets deleted successfully"}
+
+    except mysql.connector.Error as error:
+        raise HTTPException(status_code=500, detail="Database creation failed: {}".format(error))
